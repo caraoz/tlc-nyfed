@@ -28,5 +28,7 @@ I am in the process of using this extremely popular [repo](https://github.com/to
 
 open up an sql client and run `create_nyc_taxi_schema.sql`
 
-run the GUI command and add the .shp file using SID code 2263 
+import the taxi codes (make sure you added your postgres bin folder to PATH) and use powershell to correctly pipe the inputs
+
+`shp2pgsql -s 2263:4326 taxi_zones/taxi_zones.shp taxizones | psql -d nyc-taxi-data -U <username>`
 
