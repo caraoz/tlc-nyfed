@@ -14,4 +14,19 @@ Prerequisites (or at least this is my current stack):
 #### 1. Configuring database environment
 I am in the process of using this extremely popular [repo](https://github.com/toddwschneider/nyc-taxi-data "repo") to dump the TLC data into my db and have rewritten several bash files in python. The only gnu tool you will need is `sed` to remove newlines/carriage returns from the .csvs so that psql can properly copy the files.
 
-**NOTE**: since `shp2pgsql ` does not want to work with windows or I messed up something, I can not invoke it from powershell and must use the gui tool provided. Since it was written badly the srid was set to 2263 instead of 4326.
+
+
+
+1. `psql create database "nyc-taxi-data"`
+
+2. Download raw data to `data/`
+
+`cd data/`
+`wget -i ../raw_data_urls.txt`
+
+3. Set up database and all tables/indexes using PostGIS
+
+open up an sql client and run `create_nyc_taxi_schema.sql`
+
+run the GUI command and add the .shp file using SID code 2263 
+
