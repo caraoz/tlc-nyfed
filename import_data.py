@@ -40,36 +40,59 @@ yellow_schema_2017_h1=          "(vendor_id,tpep_pickup_datetime,tpep_dropoff_da
 ## theres a way to refactor this by opening a new file handle and using regex to replace newlines/carriage returns
 ## instead of using sed on WSL
 
-for filename in glob.glob('data/green*'):
+#for filename in glob.glob('data/green*'):
+#    start = time.time()
+#    #print(filename)
+#    p = re.compile(year_month_regex)
+#    year = int(p.search(filename).group(1))
+#    month = int(p.search(filename).group(2))
+#
+#    if year < 2015:
+#        schema = green_schema_pre_2015
+#
+#    elif (year == 2015) and (month < 7):
+#        schema = green_schema_2015_h1
+#
+#    elif (year == 2015) or ((year == 2016) and (month < 7)):
+#        schema = green_schema_2015_h2_2016_h1
+#
+#    elif (year == 2016) and (month > 6):
+#        schema = green_schema_2016_h2
+#
+#    else:
+#        schema = green_schema_2017_h1
+#
+#    print(schema)
+#    
+#    filename = filename.replace('\\','/')
+#    print('start load time for',filename)
+#    filepath = filename
+#    
+#    cur.execute(""" COPY green_tripdata_staging"""+schema+""" FROM 'E:/datasets/NYCYellowCabData/"""+filepath+"""' CSV HEADER """  )
+#    print('elapsed',str(time.time()-start))
+#    cur.execute(open('populate_green_trips.sql').read())
+#    print('elapsed',str(time.time()-start))
+
+for filename in glob.glob('data/yellow*'):
     start = time.time()
     #print(filename)
     p = re.compile(year_month_regex)
     year = int(p.search(filename).group(1))
     month = int(p.search(filename).group(2))
-
-    if year < 2015:
-        schema = green_schema_pre_2015
-
-    elif (year == 2015) and (month < 7):
-        schema = green_schema_2015_h1
-
+    if year < 2015: #ok
+        schema = yellow_schema_pre_2015
     elif (year == 2015) or ((year == 2016) and (month < 7)):
-        schema = green_schema_2015_h2_2016_h1
-
+        schema = yellow_schema_2015_2016_h1
     elif (year == 2016) and (month > 6):
-        schema = green_schema_2016_h2
-
+        schema = yellow_schema_2016_h2
     else:
-        schema = green_schema_2017_h1
-
+        schema = yellow_schema_2017_h1
+        
     print(schema)
-    
     filename = filename.replace('\\','/')
     print('start load time for',filename)
     filepath = filename
-    
-    cur.execute(""" COPY green_tripdata_staging"""+schema+""" FROM 'E:/datasets/NYCYellowCabData/"""+filepath+"""' CSV HEADER """  )
+    cur.execute(""" COPY yellow_tripdata_staging"""+schema+""" FROM 'E:/datasets/NYCYellowCabData/"""+filepath+"""' CSV HEADER """  )
     print('elapsed',str(time.time()-start))
-    cur.execute(open('populate_green_trips.sql').read())
+    cur.execute(open('populate_yellow_trips.sql').read())
     print('elapsed',str(time.time()-start))
-
